@@ -1,0 +1,2 @@
+cpdata.mat에 S (몇 D인지), beta (degree), rotor번호, cp값 순서대로 데이터 넣음
+cpgraph.m에서 coordinate 고르고 실행
