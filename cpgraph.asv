@@ -15,9 +15,8 @@ grouping=0;
 load('cpdata.mat');
 cpdata=sortrows(cpdata);
 
-%colormap = ["r", "b", "g", "c", "m", "y", "k", "[0.7 0.2 0.3]", "[0.2 0.5 0.7]", "[1 0.5 0]", "[0.5 0 1]"];
-%col
-
+colormap = palura;
+c = size(colormap, 1);
 
 if coordinate==1
 
@@ -27,11 +26,13 @@ data=cpdata(cpdata(:, 3) == n, :);
 
 u=unique(data(:, 1));
 uc=unique(cpdata(:, 1));
+cn=c/numel(uc
+cn=ceil(c/find(uc == u(i), 1))-1;
 
 figure(n)
 hold on
 for i=1:numel(u)
-plot(data(data(:, 1) == u(i), 2), data(data(:, 1) == u(i), 4), 'o-', 'color', colormap(uc == u(i)), 'markerfacecolor', colormap(uc == u(i)))
+plot(data(data(:, 1) == u(i), 2), data(data(:, 1) == u(i), 4), 'o-', 'color', colormap(cn), 'markerfacecolor', colormap(uc == u(i)))
 end
 if singlerotor
     plot([min(cpdata(:, 2))-5 max(cpdata(:, 2))+5], [0.3451 0.3451], 'r--', 'linewidth', 1)
@@ -59,7 +60,7 @@ for i=1:numel(u)
 plot(data(data(:, 2) == u(i), 1), data(data(:, 2) == u(i), 4), 'o-', 'color', colormap(uc == u(i)), 'markerfacecolor', colormap(uc == u(i)))
 end
 if singlerotor
-    plot([min(cpdata(:, 1))-1 max(cpdata(:, 1))+1], [0.3451 0.3451], 'r--', 'linewidth', 1)
+    plot([min(cpdata(:, 1))-0.5 max(cpdata(:, 1))+0.5], [0.3451 0.3451], 'r--', 'linewidth', 1)
 end
 legend([strcat('β=', string(u)); "Single rotor"], 'location', 'best');
 xlabel('S(D)')
@@ -67,7 +68,7 @@ ylabel('Cp')
 title(sprintf('Rotor %d', n))
 grid on
 set(gcf, 'position', [430*(n-1)+100 50 400 300])
-axis([min(cpdata(:, 1))-1 max(cpdata(:, 1))+1 min(cpdata(:, 4))-0.01 max(cpdata(:, 4))+0.01])
+axis([min(cpdata(:, 1))-0.5 max(cpdata(:, 1))+0.5 min(cpdata(:, 4))-0.01 max(cpdata(:, 4))+0.01])
 
 end
 
