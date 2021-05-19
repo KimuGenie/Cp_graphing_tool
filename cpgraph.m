@@ -7,7 +7,7 @@ coordinate=1;
 % 1. S-beta  2.x-y
 singlerotor=1;
 %single rotor의 Cp를 같이 표시하려면 1, 아니면 0
-grouping=0;
+grouping=1;
 %소수 몇 째 자리까지 반올림해서 같으면 같은 그룹으로 볼 것인지
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -24,20 +24,20 @@ for n=1:3
     
 data=cpdata(cpdata(:, 3) == n, :);
 
-u=unique(data(:, 1));
-uc=unique(cpdata(:, 1));
-cn=ceil(c/numel(uc))-1;
+u=unique(round(data(:, 1), grouping));
+uc=unique(round(cpdata(:, 1), grouping));
+ucn=round(normalize(uc, 'range')*(c-1)+1);
 
 figure(n)
 hold on
 for i=1:numel(u)
-plot(data(data(:, 1) == u(i), 2), data(data(:, 1) == u(i), 4), 'o-', 'color', colormap(find(uc == u(i), 1)*cn, :), 'markerfacecolor', colormap(find(uc == u(i), 1)*cn, :))
+plot(data(round(data(:, 1), grouping) == u(i), 2), data(round(data(:, 1), grouping) == u(i), 4), 'o-', 'color', colormap(ucn(uc==u(i)), :), 'markerfacecolor', colormap(ucn(uc==u(i)), :))
 end
 if singlerotor
     plot([min(cpdata(:, 2))-5 max(cpdata(:, 2))+5], [0.3451 0.3451], 'r--', 'linewidth', 1)
 end
 legend([strcat('S=', string(u),'D');"Single rotor"], 'location', 'best', 'fontsize', 7);
-xlabel('β')
+xlabel('β(deg)')
 ylabel('Cp')
 title(sprintf('Rotor %d', n))
 grid on
@@ -50,19 +50,19 @@ for n=1:3
     
 data=cpdata(cpdata(:, 3) == n, :);
 
-u=unique(data(:, 2));
-uc=unique(cpdata(:, 2));
-cn=ceil(c/numel(uc))-1;
+u=unique(round(data(:, 2), grouping));
+uc=unique(round(cpdata(:, 2), grouping));
+ucn=round(normalize(uc, 'range')*(c-1)+1);
 
 figure(n+3)
 hold on
 for i=1:numel(u)
-plot(data(data(:, 2) == u(i), 1), data(data(:, 2) == u(i), 4), 'o-', 'color', colormap(find(uc == u(i), 1)*cn, :), 'markerfacecolor', colormap(find(uc == u(i), 1)*cn, :))
+plot(data(round(data(:, 2), grouping) == u(i), 1), data(round(data(:, 2), grouping) == u(i), 4), 'o-', 'color', colormap(ucn(uc==u(i)), :), 'markerfacecolor', colormap(ucn(uc==u(i)), :))
 end
 if singlerotor
     plot([min(cpdata(:, 1))-0.5 max(cpdata(:, 1))+0.5], [0.3451 0.3451], 'r--', 'linewidth', 1)
 end
-legend([strcat('β=', string(u)); "Single rotor"], 'location', 'best', 'fontsize', 7);
+legend([strcat('β=', string(u),'°'); "Single rotor"], 'location', 'best', 'fontsize', 7);
 xlabel('S(D)')
 ylabel('Cp')
 title(sprintf('Rotor %d', n))
@@ -86,12 +86,12 @@ data=cpdata(cpdata(:, 3) == n, :);
 
 u=unique(round(data(:, 1), grouping));
 uc=unique(round(cpdata(:, 1), grouping));
-cn=ceil(c/numel(uc))-1;
+ucn=round(normalize(uc, 'range')*(c-1)+1);
 
 figure(n)
 hold on
 for i=1:numel(u)
-plot(data(round(data(:, 1), grouping) == u(i), 2), data(round(data(:, 1), grouping) == u(i), 4), 'o-', 'color', colormap(find(uc == u(i), 1)*cn, :), 'markerfacecolor', colormap(find(uc == u(i), 1)*cn, :))
+plot(data(round(data(:, 1), grouping) == u(i), 2), data(round(data(:, 1), grouping) == u(i), 4), 'o-', 'color', colormap(ucn(uc==u(i)), :), 'markerfacecolor', colormap(ucn(uc==u(i)), :))
 end
 if singlerotor
     plot([min(cpdata(:, 2))-1 max(cpdata(:, 2))+1], [0.3451 0.3451], 'r--', 'linewidth', 1)
@@ -112,12 +112,12 @@ data=cpdata(cpdata(:, 3) == n, :);
 
 u=unique(round(data(:, 2), grouping));
 uc=unique(round(cpdata(:, 2), grouping));
-cn=ceil(c/numel(uc))-1;
+ucn=round(normalize(uc, 'range')*(c-1)+1);
 
 figure(n+3)
 hold on
 for i=1:numel(u)
-plot(data(round(data(:, 2), grouping) == u(i), 1), data(round(data(:, 2), grouping) == u(i), 4), 'o-', 'color', colormap(find(uc == u(i), 1)*cn, :), 'markerfacecolor', colormap(find(uc == u(i), 1)*cn, :))
+plot(data(round(data(:, 2), grouping) == u(i), 1), data(round(data(:, 2), grouping) == u(i), 4), 'o-', 'color', colormap(ucn(uc==u(i)), :), 'markerfacecolor', colormap(ucn(uc==u(i)), :))
 end
 if singlerotor
     plot([min(cpdata(:, 1))-1 max(cpdata(:, 1))+1], [0.3451 0.3451], 'r--', 'linewidth', 1)
